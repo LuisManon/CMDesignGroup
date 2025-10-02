@@ -1,0 +1,581 @@
+/* Paleta flat (ajústala a tu marca) */
+:root {
+  --bg: #f7f8fa;
+  --surface: #f7f8fa; /* unifica el fondo con el color base */
+  --text: #20232a;
+  --muted: #6b7280;
+  --primary: #2d7ef7;
+  --primary-contrast: #ffffff;
+  --accent: #10b981;
+  --nav-height: 90px; /* altura objetivo del navbar en desktop (más alto para logo) */
+  --cta-height: 48px; /* altura base de botón CTA */
+  --logo-height: 90px; /* altura base del logo en navbar (más grande) */
+}
+
+/* Fuente local para títulos: Formular Medium */
+@font-face {
+  font-family: 'Formular Medium';
+  src: url('fonts/formular-medium-trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+/* Fuente para títulos desde Google Fonts: Playfair Display (fallback) */
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Scroll suave global y compensación del header fijo */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 8px);
+}
+/* Asegura que las anclas no queden ocultas bajo el header */
+section[id] { scroll-margin-top: calc(var(--nav-height) + 8px); }
+
+/* Elimina el margen por defecto del navegador (marco alrededor) */
+body { margin: 0; }
+
+/* Tipografía base más grande y legible */
+body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+/* Accesibilidad */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background: #000;
+  color: #fff;
+}
+
+/* Encabezado y navegación */
+.brand, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 1001; /* por encima del overlay móvil */
+  transition: background-color 220ms ease, border-color 220ms ease, -webkit-backdrop-filter 220ms ease, backdrop-filter 220ms ease;
+}
+
+/* Estado al hacer scroll: ligero vidrio esmerilado */
+.site-header.scrolled {
+  background-color: rgba(247, 248, 250, 0.85);
+  border-bottom-color: rgba(0,0,0,0.08);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+  backdrop-filter: saturate(180%) blur(8px);
+}
+
+/* Más separación del borde en el header */
+.site-header .container { padding-left: 2rem; padding-right: 2rem; }
+@media (min-width: 1024px) {
+  .site-header .container { padding-left: 3rem; padding-right: 3rem; }
+}
+@media (max-width: 768px) {
+  :root { --nav-height: 60px; --logo-height: 58px; }
+}
+
+.nav { /* layout en 3 zonas: izquierda, centro, derecha */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 0.25rem 0; /* menor padding vertical */
+  min-height: var(--nav-height); /* navbar más compacto y estable */
+}
+
+.nav-left { justify-self: start; }
+.nav-center { justify-self: center; }
+.nav-right { justify-self: end; }
+
+.brand img { /* tamaño del logo en navbar */
+  display: block;
+  height: var(--logo-height);
+  width: auto;
+  object-fit: contain;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.menu-toggle {
+  display: none;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform 260ms ease;
+  transform-origin: 50% 50%;
+  color: #000000; /* icono hamburguesa/X en negro */
+  z-index: 1002; /* asegurar que quede sobre el overlay */
+}
+
+.menu-toggle.is-open { transform: rotate(180deg); }
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+}
+
+.site-header .nav a { color: #000000; text-decoration: none; }
+.nav-center a { font-size: 19px; }
+
+/* Hover/focus: leve subrayado en enlaces del navbar */
+.nav-center a, .mobile-nav a {
+  position: relative;
+  text-decoration: none;
+}
+.nav-center a::after, .mobile-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px; /* fino y sutil */
+  background: currentColor;
+  opacity: 0.8;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease 40ms; /* leve retraso */
+}
+.mobile-nav a::after { bottom: 6px; } /* acercar subrayado al texto en móvil */
+.nav-center a:hover::after,
+.nav-center a:focus-visible::after,
+.mobile-nav a:hover::after,
+.mobile-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Evitar subrayado en botones dentro del header */
+.nav-right a.button::after { display: none; }
+
+/* Hero */
+.hero {
+  background: url("img/Proyectos/SALON KLAAR/KLAAR 02.jpg") center/cover no-repeat;
+  min-height: 84vh; /* +20% de altura respecto a 70vh */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+/* (Sin contenido en hero por requerimiento) */
+
+/* Utilidades */
+.eyebrow { font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
+.center { text-align: center; }
+.lead { color: var(--muted); max-width: 820px; margin: 0.5rem auto 1.25rem; }
+
+/* Secciones */
+.section {
+  padding: 3rem 0;
+}
+
+.section-alt { background: transparent; border-top: none; border-bottom: none; }
+
+/* Intro split (texto izquierda, imágenes derecha) */
+.intro-split { padding: 0.5rem 0; margin-top: 2rem; } /* más compacto + separación desde el hero */
+/* Espaciado inferior entre secciones principales */
+.intro-split { margin-bottom: 3rem; }
+.intro-split .container { padding-left: 2rem; padding-right: 2rem; }
+@media (min-width: 1024px) { .intro-split .container { padding-left: 3rem; padding-right: 3rem; } }
+.intro-split .container.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start; /* alinea contenido al inicio de la sección */
+  min-height: 96px; /* 60% de 160px */
+}
+.intro-split .split-left { max-width: 640px; align-self: start; }
+.intro-split .split-left .eyebrow {
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.6rem; /* más espacio sobre el h1 */
+}
+.intro-split .split-left h1 { margin: 0 0 1.8rem; font-size: clamp(30px, 5vw, 56px); line-height: 1.12; }
+.intro-split .split-left p { margin: 0; color: var(--muted); max-width: 60ch; }
+
+.intro-split .split-right { height: 100%; }
+.intro-split .collage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 60% 40%;
+  gap: 0.4rem;
+  height: 100%;
+  min-height: 96px; /* 60% de 160px */
+}
+.intro-split .collage figure { margin: 0; border-radius: 14px; overflow: hidden; }
+.intro-split .collage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.intro-split .collage .img-tall { grid-column: 1; grid-row: 1 / span 2; }
+.intro-split .collage .img-top { grid-column: 2; grid-row: 1; }
+.intro-split .collage .img-bottom { grid-column: 2; grid-row: 2; }
+
+@media (max-width: 1024px) {
+  .intro-split .container.grid { gap: 1rem; min-height: 90px; } /* 60% de 150px */
+  .intro-split .collage { min-height: 90px; }
+}
+
+/* En desktops anchos: altura controlada y compacta usando clamp */
+@media (min-width: 1200px) {
+  .intro-split .container.grid,
+  .intro-split .collage {
+    min-height: clamp(140px, 20vw, 320px);
+  }
+}
+
+@media (max-width: 768px) {
+  .intro-split .container.grid { grid-template-columns: 1fr; min-height: initial; }
+  .intro-split .split-right { order: 2; }
+  .intro-split .split-left { order: 1; }
+  .intro-split .collage { min-height: 72px; } /* 60% de 120px */
+}
+
+/* Overrides finales para asegurar compacidad de intro-split */
+.intro-split .container.grid { min-height: initial; }
+.intro-split .collage { min-height: initial; height: clamp(310px, 41vw, 550px); }
+@media (max-width: 768px) {
+  .intro-split { margin-top: 1rem; }
+  .intro-split .collage { height: 310px; }
+}
+
+/* (Se removieron estilos de secciones eliminadas) */
+
+/* Sobre CM (imagen izquierda / info derecha) */
+.about .container { padding-left: 2rem; padding-right: 2rem; }
+/* Más aire debajo de la sección Sobre CM */
+.about { margin-bottom: 3rem; }
+@media (min-width: 1024px) {
+  .about .container { padding-left: 3rem; padding-right: 3rem; }
+}
+.about .column { padding-left: 0.75rem; padding-right: 0.75rem; }
+.about-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.about-info { display: flex; flex-direction: column; justify-content: flex-start; align-self: start; padding-right: 1.25rem; }
+.about-name { margin: 0 0 0.2rem; font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: clamp(22px, 2.6vw, 32px); }
+.about-role { margin: 0 0 0.75rem; color: var(--muted); }
+.about-desc { line-height: 1.7; max-width: 60ch; color: var(--muted); }
+
+/* Layout 2 columnas para "Sobre CM" en desktop */
+@media (min-width: 768px) {
+  .about .row {
+    display: grid !important;
+    grid-template-columns: minmax(280px, 520px) 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .about .column { /* neutraliza márgenes/anchos de Milligram dentro de grid */
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 1rem !important; /* agrega margen interno para no pegarse a los bordes */
+  }
+  .about-photo {
+    width: 100%;
+    height: 100%;
+  }
+  .about-info { padding-right: 2.5rem; }
+}
+
+/* Igualar altura visual de sobre-cm a intro-split */
+.about .row { min-height: initial; height: clamp(310px, 41vw, 550px); }
+@media (max-width: 768px) {
+  .about .row { height: 310px; }
+}
+
+/* Project showcase (nuevo collage 2x2 y textos centrados) */
+.project-showcase { margin-bottom: 3rem; }
+.project-showcase .container { padding-left: 2rem; padding-right: 2rem; }
+@media (min-width: 1024px) { .project-showcase .container { padding-left: 3rem; padding-right: 3rem; } }
+.project-showcase h2.center {
+  font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: clamp(30px, 5vw, 56px);
+  line-height: 1.12;
+  margin: 0 0 1rem;
+}
+.style-collage { display: grid; gap: 1rem; }
+.style-collage .row-top, .style-collage .row-bottom { display: grid; gap: 1rem; }
+.style-collage .row-top { grid-template-columns: 2fr 3fr; }
+.style-collage .row-bottom { grid-template-columns: 3fr 2fr; }
+.style-collage .tile figure { margin: 0 0 0.5rem; border-radius: 12px; overflow: hidden; height: clamp(220px, 28vw, 360px); }
+.style-collage .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.style-collage .tile h2 { margin: 0 0 0.25rem; font-size: 1.25rem; }
+.style-collage .tile p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 900px) {
+  .style-collage .row-top, .style-collage .row-bottom { grid-template-columns: 1fr; }
+}
+
+/* Sección Proyectos (intro + collage 6 imágenes) */
+.projects-section { margin-bottom: 3.5rem; }
+.projects-section .container { padding-left: 2rem; padding-right: 2rem; }
+@media (min-width: 1024px) { .projects-section .container { padding-left: 3rem; padding-right: 3rem; } }
+.projects-section .center { margin-top: 4rem !important; }
+.projects-intro.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; margin-bottom: 1rem; }
+@media (max-width: 900px) { .projects-intro.grid { grid-template-columns: 1fr; } }
+.projects-intro .title {
+  font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  margin: 0;
+  font-size: clamp(30px, 5vw, 56px); /* igual que el h1 de intro-split */
+  line-height: 1.12;
+}
+.projects-intro .left .eyebrow { margin: 0 0 0.6rem; }
+.projects-intro .right { padding-top: 1.2rem; }
+.projects-collage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0 auto 3rem;
+}
+.projects-collage .col { display: contents; }
+.projects-collage .tile { display: block; }
+.projects-collage .tile figure {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #eaeaea;
+  aspect-ratio: 4 / 3;
+}
+.projects-collage .tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 1024px) {
+  .projects-collage { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 680px) {
+  .projects-collage { grid-template-columns: 1fr; }
+}
+
+/* Testimonios */
+.testimonials-section { margin-bottom: 3rem; }
+.testimonials-section .container { padding-left: 2rem; padding-right: 2rem; }
+@media (min-width: 1024px) { .testimonials-section .container { padding-left: 3rem; padding-right: 3rem; } }
+.testimonials-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 1.25rem; align-items: center; }
+.testimonials-figure { border-radius: 14px; overflow: hidden; height: clamp(260px, 40vw, 520px); }
+.testimonials-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.testimonials-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.testimonials-card h3 { margin: 0 0 0.25rem; font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: clamp(22px, 3vw, 28px); line-height: 1.2; }
+/* Título de testimonios más grande (usa class="title") */
+.testimonials-card .title { font-size: clamp(32px, 5.4vw, 48px); line-height: 1.12; margin-bottom: 0.5rem; }
+.testimonials-card .testimonial-text { margin: 0; color: var(--muted); }
+.testimonials-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.5rem; }
+.author { display: flex; align-items: center; gap: 0.75rem; }
+.author-avatar { width: 48px; height: 48px; border-radius: 9999px; overflow: hidden; flex-shrink: 0; }
+.author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.author-meta { display: flex; flex-direction: column; line-height: 1.2; }
+.author-meta .name { font-weight: 600; }
+.author-meta .role { color: var(--muted); font-size: 0.95rem; }
+.nav-buttons { display: flex; gap: 0.5rem; }
+.btn-nav { border: 1px solid #111; background: transparent; color: #111; padding: 6px 10px; border-radius: 8px; cursor: pointer; }
+.btn-nav:hover { background: #111; color: #fff; }
+/* Fade-in/out para cambiar testimonios */
+.testimonials-figure img,
+.testimonials-card { transition: opacity 240ms ease, transform 240ms ease; }
+.testimonials-section.is-fading .testimonials-figure img,
+.testimonials-section.is-fading .testimonials-card { opacity: 0; transform: translateY(6px) scale(0.98); }
+@media (max-width: 900px) {
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .testimonials-figure { order: 2; height: 240px; }
+  .testimonials-card { order: 1; }
+}
+
+/* Espaciado móvil menor */
+@media (max-width: 768px) {
+  .intro-split { margin-bottom: 2rem; }
+  .about { margin-bottom: 2rem; }
+  .project-showcase { margin-bottom: 2rem; }
+  .projects-section { margin-bottom: 2.5rem; }
+  /* Hero un poco más compacto en móvil */
+  .hero { min-height: 70vh; }
+  /* Título intro más legible y compacto en móvil */
+  .intro-split .split-left h1 { font-size: clamp(26px, 8vw, 34px); }
+  /* Collage intro más bajo en móvil */
+  .intro-split .collage { height: 220px; }
+  /* Altura de Sobre CM en móvil más discreta */
+  .about .row { height: 240px; }
+  /* Collage de estilos y proyectos más amigable en móvil */
+  .style-collage .tile figure { height: 200px; }
+  .projects-collage { grid-template-columns: 1fr; height: auto; }
+  .projects-collage .col { gap: 0.75rem; height: auto; }
+  .projects-collage .tile { flex: none; }
+  .projects-collage .tile figure { height: 200px; }
+}
+
+/* Botón outline negro reutilizable */
+.button-outline-black {
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 10px 16px !important; /* más aire entre borde y texto */
+  line-height: 1.2 !important;
+}
+.nav-right .button-outline-black {
+  height: var(--cta-height);
+  padding: 0 16px !important; /* el alto lo da la caja, solo padding horizontal */
+  display: inline-flex;
+  align-items: center;
+}
+.button-outline-black:hover { background: #000000 !important; color: #ffffff !important; }
+
+/* Botones (sobre Milligram) */
+.button {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-contrast);
+  text-decoration: none;
+}
+
+/* Asegura que los botones nunca tengan subrayado */
+.button:link,
+.button:visited,
+.button:hover,
+.button:focus { text-decoration: none !important; }
+
+.button.button-outline {
+  background: transparent;
+  color: var(--primary);
+}
+
+.button:hover {
+  filter: brightness(0.95);
+}
+
+/* CTA del navbar sobre hero */
+.button-cta {
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  background: transparent !important;
+}
+.button-cta:hover { background: #000000 !important; color: #ffffff !important; }
+
+/* Footer */
+.footer-dark { background: #0b0b0b; color: #f9fafb; }
+.footer-dark a { color: #f9fafb; opacity: 0.9; text-decoration: none; }
+.footer-dark a:hover { opacity: 1; }
+.footer-dark .container { padding-left: 2rem; padding-right: 2rem; }
+@media (min-width: 1024px) { .footer-dark .container { padding-left: 3rem; padding-right: 3rem; } }
+.foot-grid { display: grid; gap: 1rem; align-items: start; text-align: center; justify-items: center; padding-top: 2rem; padding-bottom: 1rem; }
+@media (min-width: 900px) { .foot-grid { grid-template-columns: repeat(3, 1fr); } }
+.footer-logo img { height: 56px; width: auto; filter: invert(1) saturate(0) brightness(1.8); }
+.foot-contact { list-style: none; padding: 0; margin: 0.75rem 0 0; }
+.foot-contact li { margin: 0.25rem 0; color: #d1d5db; }
+.foot-contact li span { color: #ffffff; }
+.foot-links { display: contents; }
+.foot-social, .foot-legal { display: flex; gap: 0.75rem; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; justify-content: center; }
+.foot-social a { display: inline-flex; align-items: center; gap: 0.5rem; }
+.foot-social svg { width: 20px; height: 20px; display: inline-block; }
+.foot-bottom { text-align: center; padding: 0.5rem 0 1.5rem; color: #9ca3af; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Overlay del menú móvil */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+  z-index: 999;
+}
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.mobile-menu.closing {
+  opacity: 0;              /* hace fade-out */
+  visibility: visible;     /* se mantiene visible durante el fade */
+  pointer-events: none;    /* no clickeable mientras cierra */
+}
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 96px 24px 32px;
+}
+.mobile-nav a {
+  font-size: 19px;
+  color: #000000;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  display: block;
+  padding: 12px 10px; /* mayor área táctil */
+  min-height: 44px; /* tamaño recomendado accesible */
+  border-radius: 8px;
+}
+.mobile-menu.open .mobile-nav a { animation: bubbleIn 420ms ease forwards; }
+.mobile-menu.closing .mobile-nav a { animation: bubbleOut 300ms ease forwards; }
+.mobile-nav a:active { background: #f2f2f2; }
+.mobile-menu.open .mobile-nav a:nth-child(1) { animation-delay: 60ms; }
+.mobile-menu.open .mobile-nav a:nth-child(2) { animation-delay: 140ms; }
+.mobile-menu.open .mobile-nav a:nth-child(3) { animation-delay: 220ms; }
+.mobile-menu.open .mobile-nav a:nth-child(4) { animation-delay: 300ms; }
+/* cierre sin escalonado para mejor sincronía con el fade */
+
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes bubbleOut {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
+/* Bloquea el scroll cuando el menú está abierto */
+body.menu-open { overflow: hidden; }
+
+/* Responsivo: menú móvil */
+@media (max-width: 768px) {
+  .nav { position: relative; }
+  .menu-toggle {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 16px; /* separado del borde */
+    padding: 8px; /* área táctil extra */
+  }
+  .nav-center { display: none; }
+  .nav-right { display: none; }
+}
+
+/* Header permanece blanco con textos negros */
