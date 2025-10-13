@@ -40,9 +40,20 @@ body { margin: 0; }
 
 /* Tipografía base más grande y legible */
 body {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Century Gothic', 'Inter', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
   font-size: 18px;
   line-height: 1.65;
+}
+
+/* Oculta el contenido hasta que carguen los recursos para evitar pop-in */
+body.is-loading {
+  opacity: 0;
+  visibility: hidden;
+}
+body.is-loaded {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 320ms ease;
 }
 
 /* Accesibilidad */
@@ -173,7 +184,7 @@ body {
 
 /* Hero */
 .hero {
-  background: url("img/Proyectos/SALON KLAAR/KLAAR 02.jpg") center/cover no-repeat;
+  background: url("img/Proyectos/PRALINE/IMG_4206.JPG") center/cover no-repeat;
   min-height: 84vh; /* +20% de altura respecto a 70vh */
   width: 100%;
   margin: 0;
@@ -283,8 +294,17 @@ body {
   object-fit: cover;
 }
 .about-info { display: flex; flex-direction: column; justify-content: flex-start; align-self: start; padding-right: 1.25rem; }
-.about-name { margin: 0 0 0.2rem; font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: clamp(22px, 2.6vw, 32px); }
-.about-role { margin: 0 0 0.75rem; color: var(--muted); }
+.about-name {
+  margin: 0 0 0.1rem;
+  font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: clamp(22px, 2.6vw, 32px);
+  line-height: 1.2;
+}
+.about-role {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
 .about-desc {
   line-height: 1.7;
   max-width: 60ch;
@@ -376,6 +396,59 @@ body {
   object-fit: cover;
   display: block;
 }
+.projects-collage .tile figure {
+  position: relative;
+}
+.projects-collage .tile .tile-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.62);
+  color: #ffffff;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+  text-align: center;
+  padding: 1.25rem;
+}
+.projects-collage .tile .tile-title {
+  font-family: 'Formular Medium', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.4px;
+}
+.projects-collage .tile .tile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 52px;
+  border: 2px solid #ffffff;
+  background: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+.projects-collage .tile .tile-button:hover,
+.projects-collage .tile .tile-button:focus-visible {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+.projects-collage .tile figure:hover .tile-overlay,
+.projects-collage .tile figure:focus-within .tile-overlay {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 @media (max-width: 1024px) {
   .projects-collage { grid-template-columns: repeat(2, 1fr); }
 }
@@ -397,7 +470,7 @@ body {
 .testimonials-card .testimonial-text { margin: 0; color: var(--muted); }
 .testimonials-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.5rem; }
 .author { display: flex; align-items: center; gap: 0.75rem; }
-.author-avatar { width: 48px; height: 48px; border-radius: 0; overflow: hidden; flex-shrink: 0; }
+.author-avatar { width: 48px; height: 48px; border-radius: 9999; overflow: hidden; flex-shrink: 0; }
 .author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .author-meta { display: flex; flex-direction: column; line-height: 1.2; }
 .author-meta .name { font-weight: 600; }

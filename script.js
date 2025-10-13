@@ -1,3 +1,42 @@
+// Precarga simple de imágenes para evitar pop-in al hacer scroll
+const preloadTracker = new Set();
+const preloadImageSource = (src) => {
+  if (!src || preloadTracker.has(src) || src.startsWith('data:')) return;
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+  preloadTracker.add(src);
+};
+const preloadStaticImages = () => {
+  const hero = document.querySelector(".hero");
+  if (hero) {
+    const bg = getComputedStyle(hero).backgroundImage;
+    const match = bg && bg.match(/url\(["']?(.+?)["']?\)/);
+    if (match && match[1]) preloadImageSource(match[1]);
+  }
+  document.querySelectorAll("img").forEach((img) => {
+    const current = img.currentSrc || img.src;
+    if (current) preloadImageSource(current);
+  });
+};
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", preloadStaticImages, { once: true });
+} else {
+  preloadStaticImages();
+}
+
+const revealOnceLoaded = () => {
+  const body = document.body;
+  if (!body) return;
+  body.classList.remove("is-loading");
+  body.classList.add("is-loaded");
+};
+if (document.readyState === "complete") {
+  revealOnceLoaded();
+} else {
+  window.addEventListener("load", revealOnceLoaded, { once: true });
+}
+
 // Utilidades básicas
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 
@@ -113,20 +152,24 @@ document.addEventListener("keydown", (e) => {
       avatar: 'img/Sobre-Mi/IMG_3878.jpg'
     },
     {
-      figure: 'img/Proyectos/SALON KLAAR/KLAAR 04.jpg',
+      figure: 'img/Proyectos/FUSION CELULAR DISTRITO/IMG_9231.JPG',
       text: '“Excelente comunicación y gestión. El proyecto refleja nuestra marca y optimiza la experiencia del cliente.”',
       name: 'Carlos López',
       role: 'Director Comercial',
       avatar: 'img/Sobre-Mi/IMG_3878.jpg'
     },
     {
-      figure: 'img/Proyectos/KAPITAL TOWER/IMG_3850.jpg',
+      figure: 'img/Proyectos/MELCON XV/IMG_9090 2.jpg',
       text: '“Materiales y proporciones impecables. La entrega superó expectativas y el proceso fue muy transparente.”',
       name: 'Ana García',
       role: 'Gerente de Proyecto',
       avatar: 'img/Sobre-Mi/IMG_3878.jpg'
     }
   ];
+  items.forEach((it) => {
+    preloadImageSource(it.figure);
+    preloadImageSource(it.avatar);
+  });
 
   let index = 0;
   let animating = false;
